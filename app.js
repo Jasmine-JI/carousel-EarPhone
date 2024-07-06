@@ -1,7 +1,7 @@
 let nextButton = document.getElementById('next');
 let prevButton = document.getElementById('prev');
 let backButton = document.getElementById('back');
-let seeMoreButton = document.querySelectorAll('.seeMore');
+let seeMoreButtons = document.querySelectorAll('.seeMore');
 let carousel = document.querySelector('.carousel');
 let listHtml = document.querySelector('.carousel .list');
 
@@ -11,7 +11,10 @@ nextButton.onclick = function() {
 prevButton.onclick = function() {
     showSlider('prev');
 }
+let unAcceptClick;
 const showSlider = (type) => {
+    nextButton.style.pointerEvents = 'none';
+    prevButton.style.pointerEvents = 'none';
     carousel.classList.remove('prev','next');
     let items = document.querySelectorAll('.carousel .list .item')
     if(type === 'next'){
@@ -22,4 +25,19 @@ const showSlider = (type) => {
         listHtml.prepend(items[positionLast]);
         carousel.classList.add('prev')
     }
+    clearTimeout(unAcceptClick);
+    unAcceptClick = setTimeout(() => {
+        nextButton.style.pointerEvents = 'auto';
+        prevButton.style.pointerEvents = 'auto';
+    }, 1100);
+}
+
+seeMoreButtons.forEach(button =>{
+    button.onclick = function() {
+        carousel.classList.add('showDetail');
+    }
+})
+
+backButton.onclick = function() {
+    carousel.classList.remove('showDetail');
 }
